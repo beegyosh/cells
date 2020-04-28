@@ -252,10 +252,11 @@ func FactorizeMinioServers(existingConfigs map[string]*object.MinioConfig, newSo
 			}
 		}
 	} else {
-		dsDir, bucket := filepath.Split(newSource.StorageConfiguration["folder"])
+		sourceFolder := newSource.StorageConfiguration["folder"]
+		dsDir, bucket := filepath.Split(sourceFolder)
 		peerAddress := newSource.PeerAddress
 		dsDir = strings.TrimRight(dsDir, "/")
-		if minioConfig, e := filterMiniosWithBaseFolder(existingConfigs, peerAddress, dsDir); e != nil {
+		if minioConfig, e := filterMiniosWithBaseFolder(existingConfigs, peerAddress, sourceFolder); e != nil {
 			return nil, e
 		} else if minioConfig != nil {
 			config = minioConfig
